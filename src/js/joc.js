@@ -132,6 +132,7 @@ function adaugaInsignaVictorie() {
   let insigna = insigne.create(600, 400, 'insigna');
   insigna.animations.add('spins');
   insigna.animations.play('spin', 10, true);
+
 }
 
 /************************
@@ -179,6 +180,9 @@ function managerInsignaVictorie(jucator, insigna) {
   jucatorulACastigat = true;
 }
 
+
+
+
 /***************************************************
  * Manager - jucatorul a fost otravit
  ***************************************************/
@@ -187,6 +191,7 @@ function managerOtrava (jucator, otrava) {
   jucator.kill();
   jucatorulAPierdut = true;
 }
+
 
 function managerBroasca (jucator, broasca){
   broasca.kill();
@@ -198,6 +203,27 @@ function managerStea (jucator, stea) {
   powerUp = Math.floor(Math.random() * 3) + 1;
   console.log(powerUp);
   stea.kill();
+}
+
+
+function terminareNivel(){
+  otravuri .destroy();
+  stele.destroy();
+  platforme.destroy();
+  broasca.destroy();
+  obiecte.destroy();
+  scor = 0;
+}
+
+
+function restartNivel() {
+    jucator.x = 50;
+    jucator.y = 600;
+    aduagaMonede(coordonateMonede);
+    adaugaStele(coordonateStele);
+    adaugaPlatforme();
+    adaugaOtrava();
+    adaugaBroasca();
 }
 
 
@@ -213,7 +239,7 @@ function initializeazaJoc() {
       render:  randeaza
     }
   );
-
+0
   /***************************************************
    * Incarca imaginile si seteaza dimensiunile acestora
    ***************************************************/
@@ -232,6 +258,12 @@ function initializeazaJoc() {
     joc.load.spritesheet('otrava', 'src/img/otrava.png', 32, 32); 
     joc.load.spritesheet('stea', 'src/img/stea.png', 32, 32); 
   }
+
+  
+
+  // function killObiecte(x){
+  //   x.kill();
+  // }
 
   /***************************************************
    * Starea initiala a jocului
@@ -269,7 +301,7 @@ function initializeazaJoc() {
    * input'ul utilizatorului.
    *******************************************************/
   function updateazaJoc() {
-
+    
     text.text = "SCOR: " + scor;
     joc.physics.arcade.collide(jucator, platforme);
     joc.physics.arcade.overlap(jucator, obiecte, managerObiecte);
@@ -387,15 +419,21 @@ function initializeazaJoc() {
     // Conditie victorie
     if (jucatorulACastigat) {
       mesajVictorie.text = "AI CASTIGAT!!!";
+      terminareNivel();
     }
     // Conditie Pierdere
     if (jucatorulAPierdut) {
       mesajPierdere.text = "AI PIERDUT!";
+      terminareNivel();
+      restartNivel();
     }
     
   }
-
   function randeaza() {
-  }
+  }  
 }
+
+  
+
+
 
